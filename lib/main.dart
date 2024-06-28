@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather_app/pages/home_page.dart';
+import 'package:weather_app/provider/data_provider.dart';
+import 'package:weather_app/theme/app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (BuildContext context) => DataProvider(),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -9,12 +15,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const Placeholder(),
+      theme: darkTheme,
+      home: const HomePage(),
     );
   }
 }
