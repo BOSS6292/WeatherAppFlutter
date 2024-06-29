@@ -12,9 +12,9 @@ class DataProvider extends ChangeNotifier {
   bool get hasDataLoaded => weatherModel != null;
   Map<String, dynamic> queryParams = {};
   bool locationAccess = false;
+  bool _isLoading = false;
   String _greeting = '';
   String _subtitle = '';
-  String _name = '';
   final apiKey = '823805ed368564fb588cd05260dae090';
   final baseUrl = Uri.parse('https://api.openweathermap.org/data/2.5/weather');
 
@@ -22,25 +22,30 @@ class DataProvider extends ChangeNotifier {
   double get longitude => _longitude;
   String get greeting => _greeting;
   String get subtitle => _subtitle;
+  bool get isLoading => _isLoading;
 
   DataProvider() {
     init();
   }
 
-  void init() {
+  void init() async {
     _setGreeting();
-    getLocation();
+    await getLocation();
     _setQueryParameters();
     getWeatherData();
   }
 
   void _setQueryParameters() {
-    queryParams['lat'] = _latitude;
-    queryParams['lon'] = _longitude;
+    queryParams['lat'] = '$_latitude';
+    queryParams['lon'] = '$_longitude';
     queryParams['appid'] = apiKey;
+    queryParams['units'] = 'metric';
   }
 
   Future<void> getWeatherData() async {
+    _isLoading = true;
+    notifyListeners();
+
     final uri = Uri.https(baseUrl.authority, baseUrl.path, queryParams);
     try {
       final response = await http.get(uri);
@@ -58,6 +63,9 @@ class DataProvider extends ChangeNotifier {
       }
     } catch (error) {
       print('Error fetching weather data: $error');
+    } finally{
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
@@ -121,6 +129,19 @@ class DataProvider extends ChangeNotifier {
     } else {
       _greeting = 'Good Night!';
       _subtitle = 'Sweet dreams!';
+    }
+  }
+  String getWeatherIcon(String? main) {
+    switch (main!.toLowerCase()) {
+      case 'clouds':
+        return 'assets/Cloud.png';
+      case 'clear':
+        return 'assets/Day Sun.png';
+      case 'rain':
+        return 'assets/Rain.png';
+    // Add more cases for other weather conditions as needed
+      default:
+        return 'assets/default.png'; // Default image if no match
     }
   }
 }
