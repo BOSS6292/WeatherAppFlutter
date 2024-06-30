@@ -15,6 +15,7 @@ class DataProvider extends ChangeNotifier {
   bool _isLoading = false;
   String _greeting = '';
   String _subtitle = '';
+  String visibility = '';
   final apiKey = '823805ed368564fb588cd05260dae090';
   final baseUrl = Uri.parse('https://api.openweathermap.org/data/2.5/weather');
 
@@ -35,6 +36,12 @@ class DataProvider extends ChangeNotifier {
     getWeatherData();
   }
 
+  void meterToKm(String number) {
+    double meters = double.parse(number);
+    String ans = (meters / 1000).toString();
+    visibility = ans;
+  }
+
   void _setQueryParameters() {
     queryParams['lat'] = '$_latitude';
     queryParams['lon'] = '$_longitude';
@@ -53,7 +60,7 @@ class DataProvider extends ChangeNotifier {
         final json = jsonDecode(response.body);
         weatherModel = WeatherModel.fromJson(json);
         if (weatherModel != null) {
-          print(weatherModel!.id); // Access id if weatherModel is not null
+          print(weatherModel!.id);
         } else {
           print('Weather model is null');
         }
@@ -63,8 +70,11 @@ class DataProvider extends ChangeNotifier {
       }
     } catch (error) {
       print('Error fetching weather data: $error');
-    } finally{
+    } finally {
       _isLoading = false;
+      if (weatherModel != null && weatherModel!.visibility != null) {
+        meterToKm(weatherModel!.visibility.toString());
+      }
       notifyListeners();
     }
   }
@@ -76,7 +86,7 @@ class DataProvider extends ChangeNotifier {
         _latitude = position.latitude;
         _longitude = position.longitude;
         locationAccess = true;
-        notifyListeners(); // Notify listeners after updating location
+        notifyListeners();
       } else {
         print('Location access already granted.');
       }
@@ -86,7 +96,6 @@ class DataProvider extends ChangeNotifier {
       print('Error getting location: $error');
     }
   }
-
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -131,17 +140,17 @@ class DataProvider extends ChangeNotifier {
       _subtitle = 'Sweet dreams!';
     }
   }
+
   String getWeatherIcon(String? main) {
     switch (main!.toLowerCase()) {
       case 'clouds':
-        return 'assets/Cloud.png';
+        return 'assets/Clouds.png';
       case 'clear':
         return 'assets/Day Sun.png';
       case 'rain':
         return 'assets/Rain.png';
-    // Add more cases for other weather conditions as needed
       default:
-        return 'assets/default.png'; // Default image if no match
+        return 'assets/default.png';
     }
   }
 }

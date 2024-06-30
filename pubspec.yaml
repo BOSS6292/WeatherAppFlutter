@@ -43,6 +43,7 @@ dependencies:
   geocoding:
   flutter_easyloading:
   google_fonts:
+  shimmer:
 
 
 dev_dependencies:
@@ -74,6 +75,13 @@ flutter:
     - assets/Clouds.png
     - assets/Day Snow.png
     - assets/Rain.png
+    - assets/icons/windy.png
+    - assets/icons/cloud.png
+    - assets/icons/hazzy.png
+    - assets/icons/visibility.png
+    - assets/icons/temp.png
+    - assets/icons/sunrise.png
+    - assets/icons/sunset.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -87,6 +95,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: SF-Pro-
+      fonts:
+        - asset: assets/fonts/SF-Pro-Display-Bold.otf
+        - asset: assets/fonts/SF-Pro-Display-Semibold.otf
+        - asset: assets/fonts/SF-Pro-Display-Medium.otf
+        - asset: assets/fonts/SF-Pro-Display-Regular.otf
+
   # fonts:
   #   - family: Schyler
   #     fonts:
