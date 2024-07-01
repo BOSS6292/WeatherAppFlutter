@@ -325,7 +325,7 @@ class _HomePageState extends State<HomePage>
                                           Row(
                                             children: [
                                               Text(
-                                                '${provider.forecastModel?.list[0].main.temp}',
+                                                '${provider.forecastModel?.list![0]!.main!.temp}',
                                                 style: const TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 18,

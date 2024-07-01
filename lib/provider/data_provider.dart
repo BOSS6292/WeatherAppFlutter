@@ -70,10 +70,10 @@ class DataProvider extends ChangeNotifier {
     queryParamsWeather['units'] = 'metric';
   }
 
-  void loadForecast(String jsonString) {
+  /*void loadForecast(String jsonString) {
     forecastModel = forecastModelFromJson(jsonString);
     notifyListeners();
-  }
+  }*/
 
   void _setQueryParametersForForecast(){
     queryParamsForecast['lat'] = '$_latitude';
@@ -119,7 +119,8 @@ class DataProvider extends ChangeNotifier {
     try {
       final response = await http.get(uri);
       if (response.statusCode == 200) {
-        forecastModel = forecastModelFromJson(response.body); // Parse JSON
+        final json = jsonDecode(response.body);
+        forecastModel!.fromJson(json);
         print('Forecast data loaded successfully');
         notifyListeners();
       } else {
