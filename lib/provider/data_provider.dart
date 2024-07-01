@@ -1,23 +1,30 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
+import 'package:weather_app/model/forecast_model.dart';
 import 'package:weather_app/model/weather_model.dart';
 import 'package:http/http.dart' as http;
 
 class DataProvider extends ChangeNotifier {
   WeatherModel? weatherModel;
+  ForecastModel? forecastModel;
   double _latitude = 0.0, _longitude = 0.0;
-  bool get hasDataLoaded => weatherModel != null;
-  Map<String, dynamic> queryParams = {};
+  Map<String, dynamic> queryParamsWeather = {};
+  Map<String, dynamic> queryParamsForecast = {};
   bool locationAccess = false;
   bool _isLoading = false;
   String _greeting = '';
   String _subtitle = '';
   String visibility = '';
+  bool _isLoadingWeather = false;
+  bool _isLoadingForecast = false;
   final apiKey = '823805ed368564fb588cd05260dae090';
   final baseUrl = Uri.parse('https://api.openweathermap.org/data/2.5/weather');
+  final baseUrl2 = Uri.parse('https://api.openweathermap.org/data/2.5/forecast');
 
   double get latitude => _latitude;
   double get longitude => _longitude;
@@ -32,8 +39,22 @@ class DataProvider extends ChangeNotifier {
   void init() async {
     _setGreeting();
     await getLocation();
+
+    _isLoadingWeather = true;
+    _isLoadingForecast = true;
+    notifyListeners();
+
     _setQueryParameters();
-    getWeatherData();
+    _setQueryParametersForForecast();
+
+    await Future.wait([
+      getWeatherData(),
+      getForecastData(),
+    ]);
+  }
+
+  String getCurrentMonthAndTime(){
+    return DateFormat('MMMM d').format(DateTime.now());
   }
 
   void meterToKm(String number) {
@@ -43,17 +64,28 @@ class DataProvider extends ChangeNotifier {
   }
 
   void _setQueryParameters() {
-    queryParams['lat'] = '$_latitude';
-    queryParams['lon'] = '$_longitude';
-    queryParams['appid'] = apiKey;
-    queryParams['units'] = 'metric';
+    queryParamsWeather['lat'] = '$_latitude';
+    queryParamsWeather['lon'] = '$_longitude';
+    queryParamsWeather['appid'] = apiKey;
+    queryParamsWeather['units'] = 'metric';
+  }
+
+  void loadForecast(String jsonString) {
+    forecastModel = forecastModelFromJson(jsonString);
+    notifyListeners();
+  }
+
+  void _setQueryParametersForForecast(){
+    queryParamsForecast['lat'] = '$_latitude';
+    queryParamsForecast['lon'] = '$_longitude';
+    queryParamsForecast['appid'] = apiKey;
   }
 
   Future<void> getWeatherData() async {
-    _isLoading = true;
+    _isLoadingWeather = true;
     notifyListeners();
 
-    final uri = Uri.https(baseUrl.authority, baseUrl.path, queryParams);
+    final uri = Uri.https(baseUrl.authority, baseUrl.path, queryParamsWeather);
     try {
       final response = await http.get(uri);
       if (response.statusCode == 200) {
@@ -79,6 +111,32 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> getForecastData() async {
+    _isLoadingForecast = true;
+    notifyListeners();
+
+    final uri = Uri.https(baseUrl2.authority, baseUrl2.path, queryParamsWeather);
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        forecastModel = forecastModelFromJson(response.body); // Parse JSON
+        print('Forecast data loaded successfully');
+        notifyListeners();
+      } else {
+        print('Failed to load forecast data: ${response.statusCode}');
+        // Handle error, e.g., show a message to the user
+      }
+    } on SocketException catch (e) {
+      print('Network error fetching forecast data: $e');
+      // Handle network error
+    } catch (error) {
+      print('Error fetching forecast data: $error');
+      // Handle other errors
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
   Future<void> getLocation() async {
     try {
       if (!locationAccess) {

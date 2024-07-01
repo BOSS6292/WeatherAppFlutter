@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:weather_app/provider/data_provider.dart';
@@ -10,7 +12,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -82,26 +85,26 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           const SizedBox(width: 5.0),
                           provider.weatherModel != null
                               ? FadeTransition(
-                            opacity: _animation,
-                            child: Text(
-                              provider.weatherModel!.name ?? 'Loading...',
-                              style: const TextStyle(
-                                fontFamily: 'SF-Pro-',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
-                            ),
-                          )
+                                  opacity: _animation,
+                                  child: Text(
+                                    provider.weatherModel!.name ?? 'Loading...',
+                                    style: const TextStyle(
+                                      fontFamily: 'SF-Pro-',
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                )
                               : Shimmer.fromColors(
-                            baseColor: Colors.white24,
-                            highlightColor: Colors.white60,
-                            child: Container(
-                              width: 100,
-                              height: 18,
-                              color: Colors.white,
-                            ),
-                          ),
+                                  baseColor: Colors.white24,
+                                  highlightColor: Colors.white60,
+                                  child: Container(
+                                    width: 100,
+                                    height: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
                         ],
                       ),
                       const SizedBox(height: 40.0),
@@ -110,96 +113,24 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         children: [
                           provider.weatherModel != null
                               ? FadeTransition(
-                            opacity: _animation,
-                            child: Image.asset(
-                              provider.getWeatherIcon(provider.weatherModel!.weather![0].main),
-                              width: 200,
-                              height: 200,
-                              fit: BoxFit.contain,
-                            ),
-                          )
+                                  opacity: _animation,
+                                  child: Image.asset(
+                                    provider.getWeatherIcon(provider
+                                        .weatherModel!.weather![0].main),
+                                    width: 200,
+                                    height: 200,
+                                    fit: BoxFit.contain,
+                                  ),
+                                )
                               : Shimmer.fromColors(
-                            baseColor: Colors.white24,
-                            highlightColor: Colors.white60,
-                            child: Container(
-                              width: 200,
-                              height: 200,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 30.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          provider.weatherModel != null
-                              ? FadeTransition(
-                            opacity: _animation,
-                            child: Stack(
-                              children: [
-                                // Shadow text
-                                Text(
-                                  '${provider.weatherModel!.main!.temp!.ceil()}°',
-                                  style: const TextStyle(
-                                    fontFamily: 'SF-Pro-',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 74,
+                                  baseColor: Colors.white24,
+                                  highlightColor: Colors.white60,
+                                  child: Container(
+                                    width: 200,
+                                    height: 200,
                                     color: Colors.white,
                                   ),
                                 ),
-                                FadeTransition(
-                                  opacity: _animation,
-                                  child: Text(
-                                    '${provider.weatherModel!.main!.temp!.ceil()}°',
-                                    style: const TextStyle(
-                                      fontFamily: 'SF-Pro-',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 74,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                              : Shimmer.fromColors(
-                            baseColor: Colors.white24,
-                            highlightColor: Colors.white60,
-                            child: Container(
-                              width: 100,
-                              height: 74,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 3.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          provider.weatherModel != null
-                              ? FadeTransition(
-                            opacity: _animation,
-                            child: Text(
-                              'Max.: ${provider.weatherModel!.main!.tempMax!.ceil()}°  Min.: ${provider.weatherModel!.main!.tempMin!.ceil()}°',
-                              style: const TextStyle(
-                                fontFamily: 'SF-Pro-Display-Regular',
-                                fontWeight: FontWeight.normal,
-                                fontSize: 18,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                              : Shimmer.fromColors(
-                            baseColor: Colors.white24,
-                            highlightColor: Colors.white60,
-                            child: Container(
-                              width: 200,
-                              height: 36,
-                              color: Colors.white,
-                            ),
-                          ),
                         ],
                       ),
                       const SizedBox(height: 20.0),
@@ -208,253 +139,235 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         children: [
                           provider.weatherModel != null
                               ? FadeTransition(
-                            opacity: _animation,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: const Color(0xFF003A8C),
-                              ),
-                              padding: const EdgeInsets.all(10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const SizedBox(width: 20.0),
-                                  Row(
+                                  opacity: _animation,
+                                  child: Stack(
                                     children: [
-                                      Image.asset(
-                                        'assets/icons/windy.png',
-                                        width: 24,
-                                        height: 24,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        '${provider.weatherModel!.wind!.speed}',
-                                        style: const TextStyle(
-                                          fontFamily: 'SF-Pro-Display-Regular',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18,
-                                          color: Colors.white,
+                                      FadeTransition(
+                                        opacity: _animation,
+                                        child: Text(
+                                          '${provider.weatherModel!.main!.temp!.ceil()}°',
+                                          style: const TextStyle(
+                                            fontFamily: 'SF-Pro-',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 74,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(width: 20.0),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/cloud.png',
-                                        width: 24,
-                                        height: 24,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        '${provider.weatherModel!.clouds!.all}',
-                                        style: const TextStyle(
-                                          fontFamily: 'SF-Pro-Display-Regular',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 20.0),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/hazzy.png',
-                                        width: 24,
-                                        height: 24,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        '${provider.weatherModel!.main!.humidity}%',
-                                        style: const TextStyle(
-                                          fontFamily: 'SF-Pro-Display-Regular',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 20.0),
-                                ],
-                              ),
-                            ),
-                          )
+                                )
                               : Shimmer.fromColors(
-                            baseColor: Colors.white24,
-                            highlightColor: Colors.white60,
-                            child: Container(
-                              width: 200,
-                              height: 36,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white24,
-                              ),
-                            ),
-                          ),
+                                  baseColor: Colors.white24,
+                                  highlightColor: Colors.white60,
+                                  child: Container(
+                                    width: 100,
+                                    height: 74,
+                                    color: Colors.white,
+                                  ),
+                                ),
                         ],
                       ),
-                      const SizedBox(height: 10.0),
+                      const SizedBox(height: 3.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           provider.weatherModel != null
                               ? FadeTransition(
-                            opacity: _animation,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: const Color(0xFF003A8C),
-                              ),
-                              padding: const EdgeInsets.all(10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const SizedBox(width: 20.0),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/temp.png',
-                                        width: 24,
-                                        height: 24,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        '${provider.weatherModel!.main!.feelsLike!.ceil()}°',
-                                        style: const TextStyle(
-                                          fontFamily: 'SF-Pro-Display-Regular',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
+                                  opacity: _animation,
+                                  child: Text(
+                                    'Max.: ${provider.weatherModel!.main!.tempMax!.ceil()}°  Min.: ${provider.weatherModel!.main!.tempMin!.ceil()}°',
+                                    style: const TextStyle(
+                                      fontFamily: 'SF-Pro-Display-Regular',
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                  const SizedBox(width: 20.0),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/visibility.png',
-                                        width: 24,
-                                        height: 24,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        '${provider.visibility} Km',
-                                        style: const TextStyle(
-                                          fontFamily: 'SF-Pro-Display-Regular',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 20.0),
-                                ],
-                              ),
-                            ),
-                          )
+                                )
                               : Shimmer.fromColors(
-                            baseColor: Colors.white24,
-                            highlightColor: Colors.white60,
-                            child: Container(
-                              width: 200,
-                              height: 36,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white24,
-                              ),
-                            ),
-                          ),
+                                  baseColor: Colors.white24,
+                                  highlightColor: Colors.white60,
+                                  child: Container(
+                                    width: 200,
+                                    height: 36,
+                                    color: Colors.white,
+                                  ),
+                                ),
                         ],
                       ),
-                      const SizedBox(height: 10.0),
+                      const SizedBox(height: 20.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           provider.weatherModel != null
                               ? FadeTransition(
-                            opacity: _animation,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: const Color(0xFF003A8C),
-                              ),
-                              padding: const EdgeInsets.all(10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const SizedBox(width: 20.0),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/sunrise.png',
-                                        width: 24,
-                                        height: 24,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      const Text(
-                                        '',
-                                        style: TextStyle(
-                                          fontFamily: 'SF-Pro-Display-Regular',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18,
-                                          color: Colors.white,
+                                  opacity: _animation,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: const Color(0xFF003A8C),
+                                    ),
+                                    padding: const EdgeInsets.all(10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const SizedBox(width: 20.0),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              'assets/icons/windy.png',
+                                              width: 14,
+                                              height: 16,
+                                              color: Colors.white,
+                                            ),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              '${provider.weatherModel!.wind!.speed} km/h',
+                                              style: const TextStyle(
+                                                fontFamily:
+                                                    'SF-Pro-Display-Regular',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 20.0),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/sunset.png',
-                                        width: 24,
-                                        height: 24,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      const Text(
-                                        '',
-                                        style: TextStyle(
-                                          fontFamily: 'SF-Pro-Display-Regular',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18,
-                                          color: Colors.white,
+                                        const SizedBox(width: 20.0),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              'assets/icons/temp.png',
+                                              width: 14,
+                                              height: 16,
+                                              color: Colors.white,
+                                            ),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              '${provider.weatherModel!.main!.temp!.ceil()}',
+                                              style: const TextStyle(
+                                                fontFamily:
+                                                    'SF-Pro-Display-Regular',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
+                                        const SizedBox(width: 20.0),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              'assets/icons/hazzy.png',
+                                              width: 14,
+                                              height: 16,
+                                              color: Colors.white,
+                                            ),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              '${provider.weatherModel!.main!.humidity}%',
+                                              style: const TextStyle(
+                                                fontFamily:
+                                                    'SF-Pro-Display-Regular',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 20.0),
+                                      ],
+                                    ),
                                   ),
-                                  const SizedBox(width: 20.0),
-                                ],
-                              ),
-                            ),
-                          )
+                                )
                               : Shimmer.fromColors(
-                            baseColor: Colors.white24,
-                            highlightColor: Colors.white60,
-                            child: Container(
-                              width: 200,
-                              height: 36,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white24,
-                              ),
-                            ),
-                          ),
+                                  baseColor: Colors.white24,
+                                  highlightColor: Colors.white60,
+                                  child: Container(
+                                    width: 200,
+                                    height: 36,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.white24,
+                                    ),
+                                  ),
+                                ),
                         ],
+                      ),
+                      const SizedBox(height: 10.0),
+                      //Today Forecast
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0xFF003A8C),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            provider.weatherModel != null
+                                ? FadeTransition(
+                                    opacity: _animation,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: const Color(0xFF003A8C),
+                                      ),
+                                      padding: const EdgeInsets.all(10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const SizedBox(width: 20.0),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '${provider.forecastModel?.list[0].main.temp}',
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(width: 170.0),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                provider
+                                                    .getCurrentMonthAndTime(),
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(width: 20.0),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : Shimmer.fromColors(
+                                    baseColor: Colors.white24,
+                                    highlightColor: Colors.white60,
+                                    child: Container(
+                                      width: 200,
+                                      height: 36,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white24,
+                                      ),
+                                    ),
+                                  ),
+                          ],
+                        ),
                       )
-
                     ],
                   ),
                 ),
