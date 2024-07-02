@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(30.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
                       Row(
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage>
                                 ),
                         ],
                       ),
-                      const SizedBox(height: 40.0),
+                      const SizedBox(height: 20.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage>
                                 ),
                         ],
                       ),
-                      const SizedBox(height: 20.0),
+                      const SizedBox(height: 5.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -168,7 +168,6 @@ class _HomePageState extends State<HomePage>
                                 ),
                         ],
                       ),
-                      const SizedBox(height: 3.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -196,7 +195,7 @@ class _HomePageState extends State<HomePage>
                                 ),
                         ],
                       ),
-                      const SizedBox(height: 20.0),
+                      const SizedBox(height: 10.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -204,6 +203,8 @@ class _HomePageState extends State<HomePage>
                               ? FadeTransition(
                                   opacity: _animation,
                                   child: Container(
+                                    width: 300,
+                                    height: 47,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
                                       color: const Color(0xFF003A8C),
@@ -215,6 +216,8 @@ class _HomePageState extends State<HomePage>
                                       children: [
                                         const SizedBox(width: 20.0),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
                                             Image.asset(
                                               'assets/icons/windy.png',
@@ -237,6 +240,8 @@ class _HomePageState extends State<HomePage>
                                         ),
                                         const SizedBox(width: 20.0),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
                                             Image.asset(
                                               'assets/icons/temp.png',
@@ -259,6 +264,8 @@ class _HomePageState extends State<HomePage>
                                         ),
                                         const SizedBox(width: 20.0),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
                                             Image.asset(
                                               'assets/icons/hazzy.png',
@@ -301,63 +308,111 @@ class _HomePageState extends State<HomePage>
                       const SizedBox(height: 10.0),
                       //Today Forecast
                       Container(
+                        padding: const EdgeInsets.all(12.0),
+                        height: 185,
+                        width: 300,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: const Color(0xFF003A8C),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            provider.weatherModel != null
+                            provider.forecastModel != null
                                 ? FadeTransition(
                                     opacity: _animation,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: const Color(0xFF003A8C),
-                                      ),
-                                      padding: const EdgeInsets.all(10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const SizedBox(width: 20.0),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                '${provider.forecastModel?.list![0]!.main!.temp}',
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(width: 170.0),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                provider
-                                                    .getCurrentMonthAndTime(),
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 18,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              'Today',
+                                              style: TextStyle(
                                                   color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              provider.getCurrentMonthAndTime(),
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        // Adding some space between the row and the list
+                                        SizedBox(
+                                          height: 100,
+                                          // Define the height of the ListView.builder
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: provider
+                                                .forecastModel!.list!.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              final tempData = provider
+                                                  .forecastModel!
+                                                  .list![index]!
+                                                  .main!
+                                                  .temp!
+                                                  .ceil();
+                                              final timeData = provider.printForecastItems(provider.forecastModel!.list![index]!.dtTxt!);
+                                              return Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8.0),
+                                                child: Container(
+                                                  height: 21,
+                                                  width: 40,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors.blue),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                    color: const Color(0xFF2566A3),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                          '${tempData.toString()}°',
+                                                          style: const TextStyle(
+                                                              fontSize: 18,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal)),
+                                                      Text(timeData ?? 'NA',
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .grey)),
+                                                    ],
+                                                  ),
                                                 ),
-                                              )
-                                            ],
+                                              );
+                                            },
                                           ),
-                                          const SizedBox(width: 20.0),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   )
                                 : Shimmer.fromColors(
                                     baseColor: Colors.white24,
                                     highlightColor: Colors.white60,
                                     child: Container(
-                                      width: 200,
+                                      width: 300,
                                       height: 36,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
@@ -367,7 +422,7 @@ class _HomePageState extends State<HomePage>
                                   ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

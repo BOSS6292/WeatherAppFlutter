@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:weather_app/model/forecast_model.dart';
-import 'package:weather_app/model/weather_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app/model/forecast_model.dart';
+
+import '../model/weather_model.dart'; // Adjust path as per your project structure
 
 class DataProvider extends ChangeNotifier {
   WeatherModel? weatherModel;
@@ -31,6 +33,7 @@ class DataProvider extends ChangeNotifier {
   String get greeting => _greeting;
   String get subtitle => _subtitle;
   bool get isLoading => _isLoading;
+  bool get hasDataLoaded => forecastModel!=null;
 
   DataProvider() {
     init();
@@ -53,7 +56,7 @@ class DataProvider extends ChangeNotifier {
     ]);
   }
 
-  String getCurrentMonthAndTime(){
+  String getCurrentMonthAndTime() {
     return DateFormat('MMMM d').format(DateTime.now());
   }
 
@@ -70,15 +73,11 @@ class DataProvider extends ChangeNotifier {
     queryParamsWeather['units'] = 'metric';
   }
 
-  /*void loadForecast(String jsonString) {
-    forecastModel = forecastModelFromJson(jsonString);
-    notifyListeners();
-  }*/
-
-  void _setQueryParametersForForecast(){
+  void _setQueryParametersForForecast() {
     queryParamsForecast['lat'] = '$_latitude';
     queryParamsForecast['lon'] = '$_longitude';
     queryParamsForecast['appid'] = apiKey;
+    queryParamsForecast['units'] = 'metric';
   }
 
   Future<void> getWeatherData() async {
@@ -103,7 +102,7 @@ class DataProvider extends ChangeNotifier {
     } catch (error) {
       print('Error fetching weather data: $error');
     } finally {
-      _isLoading = false;
+      _isLoadingWeather = false;
       if (weatherModel != null && weatherModel!.visibility != null) {
         meterToKm(weatherModel!.visibility.toString());
       }
@@ -115,12 +114,12 @@ class DataProvider extends ChangeNotifier {
     _isLoadingForecast = true;
     notifyListeners();
 
-    final uri = Uri.https(baseUrl2.authority, baseUrl2.path, queryParamsWeather);
+    final uri = Uri.https(baseUrl2.authority, baseUrl2.path, queryParamsForecast);
     try {
       final response = await http.get(uri);
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        forecastModel!.fromJson(json);
+        forecastModel = ForecastModel.fromJson(json);
         print('Forecast data loaded successfully');
         notifyListeners();
       } else {
@@ -134,10 +133,40 @@ class DataProvider extends ChangeNotifier {
       print('Error fetching forecast data: $error');
       // Handle other errors
     } finally {
-      _isLoading = false;
+      _isLoadingForecast = false;
       notifyListeners();
     }
   }
+
+  String? printForecastItems(String dtTxt) {
+    /*if (forecastModel == null || forecastModel!.list!.isEmpty) {
+      if (kDebugMode) {
+        print('No forecast data available');
+      }
+      return 'Null';
+    }*/
+    DateTime now = DateTime.now();
+    bool shouldPrint = false;
+    String? ans;
+
+      var forecastItemText = dtTxt;
+      DateTime forecastDateTime = convertStringToDateTimeObj(forecastItemText);
+
+      if (shouldPrint || forecastDateTime.isAfter(now)) {
+        ans = DateFormat('hh:mm a').format(forecastDateTime);
+        shouldPrint = true;
+      }
+      if (shouldPrint && forecastDateTime.day != now.day) {
+        return null;
+      }
+    return ans;
+  }
+
+
+  DateTime convertStringToDateTimeObj(String? dt) {
+    return DateTime.parse(dt!);
+  }
+
   Future<void> getLocation() async {
     try {
       if (!locationAccess) {
