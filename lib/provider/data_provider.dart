@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -7,16 +8,20 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app/model/air_quality_model.dart';
 import 'package:weather_app/model/forecast_model.dart';
 
-import '../model/weather_model.dart'; // Adjust path as per your project structure
+import '../model/weather_model.dart';
 
 class DataProvider extends ChangeNotifier {
   WeatherModel? weatherModel;
   ForecastModel? forecastModel;
+  AirQuality? airQualityModel;
+
   double _latitude = 0.0, _longitude = 0.0;
   Map<String, dynamic> queryParamsWeather = {};
   Map<String, dynamic> queryParamsForecast = {};
+  Map<String, dynamic> queryParamsAirQuality = {};
   bool locationAccess = false;
   bool _isLoading = false;
   String _greeting = '';
@@ -24,10 +29,13 @@ class DataProvider extends ChangeNotifier {
   String visibility = '';
   bool _isLoadingWeather = false;
   bool _isLoadingForecast = false;
+  bool _isLoadingAirQuality = false;
   final apiKey = '823805ed368564fb588cd05260dae090';
   final baseUrl = Uri.parse('https://api.openweathermap.org/data/2.5/weather');
   final baseUrl2 =
       Uri.parse('https://api.openweathermap.org/data/2.5/forecast');
+  final baseUrl3 =
+      Uri.parse('https://api.openweathermap.org/data/2.5/air_pollution');
 
   double get latitude => _latitude;
 
@@ -55,13 +63,13 @@ class DataProvider extends ChangeNotifier {
 
     _setQueryParameters();
     _setQueryParametersForForecast();
+    _setQueryParameteresForAirQuality();
 
     await Future.wait([
       getWeatherData(),
       getForecastData(),
     ]);
   }
-
 
   String getCurrentMonthAndTime() {
     return DateFormat('MMMM d').format(DateTime.now());
@@ -85,6 +93,12 @@ class DataProvider extends ChangeNotifier {
     queryParamsForecast['lon'] = '$_longitude';
     queryParamsForecast['appid'] = apiKey;
     queryParamsForecast['units'] = 'metric';
+  }
+
+  void _setQueryParameteresForAirQuality() {
+    queryParamsWeather['lat'] = '$_latitude';
+    queryParamsWeather['lon'] = '$_longitude';
+    queryParamsWeather['appid'] = apiKey;
   }
 
   Future<void> getWeatherData() async {
@@ -146,6 +160,34 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> getAirQualityData() async {
+    _isLoadingAirQuality = true;
+    notifyListeners();
+
+    final uri =
+        Uri.https(baseUrl3.authority, baseUrl3.path, queryParamsAirQuality);
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        airQualityModel = AirQuality.fromJson(json);
+        print('Air Quality data loaded successfully');
+        notifyListeners();
+      } else {
+        print('Failed to load Air Quality: ${response.statusCode}');
+        // Handle error, e.g., show a message to the user
+      }
+    } on SocketException catch (e) {
+      print('Network error fetching Air Quality: $e');
+      // Handle network error
+    } catch (error) {
+      print('Error fetching Air Quality: $error');
+      // Handle other errors
+    } finally {
+      _isLoadingAirQuality = false;
+      notifyListeners();
+    }
+  }
 
   String? printForecastItems(String dtTxt) {
     DateTime now = DateTime.now();

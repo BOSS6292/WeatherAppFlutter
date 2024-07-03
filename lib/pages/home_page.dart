@@ -334,7 +334,7 @@ class _HomePageState extends State<HomePage>
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily:
-                                                  'SF-Pro-Display-Regular',
+                                                      'SF-Pro-Display-Regular',
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold),
                                             ),
@@ -342,7 +342,7 @@ class _HomePageState extends State<HomePage>
                                               provider.getCurrentMonthAndTime(),
                                               style: const TextStyle(
                                                 fontFamily:
-                                                'SF-Pro-Display-Regular',
+                                                    'SF-Pro-Display-Regular',
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 18,
                                                 color: Colors.white,
@@ -395,7 +395,7 @@ class _HomePageState extends State<HomePage>
                                                           fontSize: 18,
                                                           color: Colors.white,
                                                           fontFamily:
-                                                          'SF-Pro-Display-Regular',
+                                                              'SF-Pro-Display-Regular',
                                                           fontWeight:
                                                               FontWeight.normal,
                                                         ),
@@ -405,8 +405,9 @@ class _HomePageState extends State<HomePage>
                                                         style: const TextStyle(
                                                             fontSize: 14,
                                                             fontFamily:
-                                                            'SF-Pro-Display-Regular',
-                                                            color: Colors.white),
+                                                                'SF-Pro-Display-Regular',
+                                                            color:
+                                                                Colors.white),
                                                       ),
                                                     ],
                                                   ),
