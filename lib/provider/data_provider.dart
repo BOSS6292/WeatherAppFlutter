@@ -67,6 +67,7 @@ class DataProvider extends ChangeNotifier {
     await Future.wait([
       getWeatherData(),
       getForecastData(),
+      getAirQualityData()
     ]);
   }
 

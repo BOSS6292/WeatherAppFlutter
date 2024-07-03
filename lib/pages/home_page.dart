@@ -4,6 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:weather_app/provider/data_provider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+import '../containers/airQualityContainer.dart';
+import '../containers/weatherContainer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -307,127 +311,24 @@ class _HomePageState extends State<HomePage>
                       ),
                       const SizedBox(height: 10.0),
                       //Today Forecast
-                      Container(
-                        height: 185,
-                        width: 300,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color(0xFF003A8C),
+                      CarouselSlider(
+                        items: [
+                          SingleChildScrollView(
+                            physics: NeverScrollableScrollPhysics(), // Disable scrolling within the carousel
+                            child: buildWeatherContainer(context, _animation),
+                          ),
+                          SingleChildScrollView(
+                            physics: NeverScrollableScrollPhysics(), // Disable scrolling within the carousel
+                            child: buildAirContainer(context, _animation),
+                          ),
+                          // Add more items as needed
+                        ],
+                        options: CarouselOptions(
+                          height: 200,
+                          enableInfiniteScroll: false,
+                          enlargeCenterPage: true,
+                          //viewportFraction: 1.0,
                         ),
-                        child: provider.forecastModel != null
-                            ? Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: FadeTransition(
-                                  opacity: _animation,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                            'Today',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily:
-                                                  'SF-Pro-Display-Regular',
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            provider.getCurrentMonthAndTime(),
-                                            style: const TextStyle(
-                                              fontFamily:
-                                                  'SF-Pro-Display-Regular',
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 18,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 10),
-                                      // Adjusted to 10 pixels
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          height: 100, // Adjusted to 100 pixels
-                                          width: 250,
-                                          child: ListView.builder(
-                                            padding: EdgeInsets.zero,
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount:
-                                                provider.getTodaysData().length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              final todaysData = context
-                                                  .watch<DataProvider>()
-                                                  .getTodaysData();
-                                              if (index >= todaysData.length) {
-                                                return Container();
-                                              }
-                                              final tempData = todaysData[index]
-                                                  .main!
-                                                  .temp!
-                                                  .ceil();
-                                              final timeData =
-                                                  provider.printForecastItems(
-                                                      todaysData[index].dtTxt!);
-                                              return Container(
-                                                margin:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 8.0),
-                                                width: 50,
-                                                child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Text(
-                                                      '${tempData}°',
-                                                      style: const TextStyle(
-                                                        fontSize: 18,
-                                                        color: Colors.white,
-                                                        fontFamily:
-                                                            'SF-Pro-Display-Regular',
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      timeData ?? 'NA',
-                                                      style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              'SF-Pro-Display-Regular',
-                                                          color: Colors.white),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : Shimmer.fromColors(
-                                baseColor: Colors.white24,
-                                highlightColor: Colors.white60,
-                                child: Container(
-                                  height: double.infinity,
-                                  // Cover entire height of parent
-                                  width: double.infinity,
-                                  // Cover entire width of parent
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: const Color(0xFF003A8C),
-                                  ),
-                                ),
-                              ),
                       ),
                     ],
                   ),
