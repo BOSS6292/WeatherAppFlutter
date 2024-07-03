@@ -347,7 +347,8 @@ class DataProvider extends ChangeNotifier {
     if (6 <= currentHour && currentHour < 12) {
       _gradientColors = [Colors.yellow[200]!, Colors.orange[700]!, Colors.yellow[200]!];
     } else if (12 <= currentHour && currentHour < 18) {
-      _gradientColors = [Colors.lightBlue[200]!, Colors.blue[700]!, Colors.lightBlue[200]!];
+      _gradientColors = [Colors.black, Colors.grey[900]!, Colors.black];
+      /*_gradientColors = [Colors.lightBlue[200]!, Colors.blue[700]!, Colors.lightBlue[200]!];*/
     } else if (18 <= currentHour && currentHour < 24) {
       _gradientColors = [Colors.indigo[400]!, Colors.blue[900]!, Colors.indigo[400]!];
     } else {

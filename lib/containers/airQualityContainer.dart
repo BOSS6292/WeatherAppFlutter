@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -8,109 +9,136 @@ Widget buildAirContainer(BuildContext context, Animation<double> animation) {
   final provider = Provider.of<DataProvider>(context);
 
   return Container(
-    height: 185,
-    width: 300,
+    height: 185.h,
+    width: 300.w,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
-      color: const Color(0xFF003A8C),
+      borderRadius: BorderRadius.circular(20.r),
+      color: Colors.transparent,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          blurRadius: 10,
+          offset: const Offset(0, 6),
+        ),
+      ],
     ),
-    child: provider.airQualityModel != null
-        ? Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: FadeTransition(
-        opacity: animation,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset(
-                  'assets/icons/windy.png',
-                  width: 14,
-                  height: 16,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 10),
-                const Text(
-                  'AIR QUALITY',
-                  style: TextStyle(
-                    fontFamily: 'SF-Pro-Display-Regular',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 130,
-              width: 300,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${provider.airQualityModel!.list![0].main!.aqi}',
-                          style: const TextStyle(
-                            fontSize: 80,
-                            color: Colors.white,
-                            fontFamily: 'SF-Pro-Display-Regular',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              provider.getAirQualityInfo(provider.airQualityModel!.list![0].main!.aqi.toString()).message,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontFamily: 'SF-Pro-Display-Regular',
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              provider.getAirQualityInfo(provider.airQualityModel!.list![0].main!.aqi.toString()).recommendation,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontFamily: 'SF-Pro-Display-Regular',
-                                fontWeight: FontWeight.normal,
-                              ),
-                              maxLines: null,
-                              overflow: TextOverflow.visible,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white.withOpacity(0.1),
+                  Colors.white.withOpacity(0.05),
+                ],
               ),
-            )
-          ],
-        ),
-      ),
-    )
-        : Shimmer.fromColors(
-      baseColor: Colors.white24,
-      highlightColor: Colors.white60,
-      child: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: const Color(0xFF003A8C),
-        ),
+            ),
+          ),
+          provider.airQualityModel != null
+              ? Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: FadeTransition(
+              opacity: animation,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/icons/windy.png',
+                        width: 14,
+                        height: 16,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'AIR QUALITY',
+                        style: TextStyle(
+                          fontFamily: 'SF-Pro-Display-Regular',
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 130,
+                    width: 300,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '${provider.airQualityModel!.list![0].main!.aqi}',
+                                style: const TextStyle(
+                                  fontSize: 80,
+                                  color: Colors.white,
+                                  fontFamily: 'SF-Pro-Display-Regular',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    provider.getAirQualityInfo(provider.airQualityModel!.list![0].main!.aqi.toString()).message,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontFamily: 'SF-Pro-Display-Regular',
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    provider.getAirQualityInfo(provider.airQualityModel!.list![0].main!.aqi.toString()).recommendation,
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontFamily: 'SF-Pro-Display-Regular',
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    maxLines: null,
+                                    overflow: TextOverflow.visible,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+              : Shimmer.fromColors(
+            baseColor: Colors.white24,
+            highlightColor: Colors.white60,
+            child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white.withOpacity(0.1),
+              ),
+            ),
+          ),
+        ],
       ),
     ),
   );

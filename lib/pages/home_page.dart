@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -189,7 +191,7 @@ class _HomePageState extends State<HomePage>
                                 ),
                         ],
                       ),
-                      SizedBox(height: 10.0.h),
+                      SizedBox(height: 15.0.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -201,87 +203,105 @@ class _HomePageState extends State<HomePage>
                                     height: 47.h,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20.r),
-                                      color: const Color(0xFF003A8C),
+                                      color: Colors.transparent,
                                     ),
-                                    padding: EdgeInsets.all(10.w),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(width: 20.0.w),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              'assets/icons/windy.png',
-                                              width: 14.w,
-                                              height: 16.h,
-                                              color: Colors.white,
-                                            ),
-                                            SizedBox(width: 5.w),
-                                            Text(
-                                              '${provider.weatherModel!.wind!.speed} km/h',
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    'SF-Pro-Display-Regular',
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14.sp,
-                                                color: Colors.white,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20.r),
+                                      child: BackdropFilter(
+                                        filter: ImageFilter.blur(
+                                            sigmaX: 10, sigmaY: 10),
+                                        child: Container(
+                                          padding: EdgeInsets.all(10.w),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20.r),
+                                            color: Colors.white.withOpacity(
+                                                0.1),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(width: 20.0.w),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/icons/windy.png',
+                                                    width: 14.w,
+                                                    height: 16.h,
+                                                    color: Colors.white,
+                                                  ),
+                                                  SizedBox(width: 5.w),
+                                                  Text(
+                                                    '${provider.weatherModel!.wind!.speed} km/h',
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          'SF-Pro-Display-Regular',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.sp,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(width: 20.0.w),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              'assets/icons/temp.png',
-                                              width: 14.w,
-                                              height: 16.h,
-                                              color: Colors.white,
-                                            ),
-                                            SizedBox(width: 5.w),
-                                            Text(
-                                              '${provider.weatherModel!.main!.temp!.ceil()}',
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    'SF-Pro-Display-Regular',
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14.sp,
-                                                color: Colors.white,
+                                              SizedBox(width: 20.0.w),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/icons/temp.png',
+                                                    width: 14.w,
+                                                    height: 16.h,
+                                                    color: Colors.white,
+                                                  ),
+                                                  SizedBox(width: 5.w),
+                                                  Text(
+                                                    '${provider.weatherModel!.main!.temp!.ceil()}',
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          'SF-Pro-Display-Regular',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.sp,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(width: 20.0.w),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              'assets/icons/hazzy.png',
-                                              width: 14.w,
-                                              height: 16.h,
-                                              color: Colors.white,
-                                            ),
-                                            SizedBox(width: 5.w),
-                                            Text(
-                                              '${provider.weatherModel!.main!.humidity}%',
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    'SF-Pro-Display-Regular',
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14.sp,
-                                                color: Colors.white,
+                                              SizedBox(width: 20.0.w),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/icons/hazzy.png',
+                                                    width: 14.w,
+                                                    height: 16.h,
+                                                    color: Colors.white,
+                                                  ),
+                                                  SizedBox(width: 5.w),
+                                                  Text(
+                                                    '${provider.weatherModel!.main!.humidity}%',
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          'SF-Pro-Display-Regular',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.sp,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ],
+                                              SizedBox(width: 20.0.w),
+                                            ],
+                                          ),
                                         ),
-                                        SizedBox(width: 20.0.w),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 )
@@ -299,7 +319,7 @@ class _HomePageState extends State<HomePage>
                                 ),
                         ],
                       ),
-                      SizedBox(height: 10.0.h),
+                      SizedBox(height: 20.0.h),
                       CarouselSlider(
                         items: [
                           SingleChildScrollView(
@@ -323,10 +343,11 @@ class _HomePageState extends State<HomePage>
                                 provider.weatherModel!.weather != null &&
                                 provider.weatherModel!.weather!.isNotEmpty
                             ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                    provider.weatherModel!.weather![0].description!
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    provider
+                                        .weatherModel!.weather![0].description!
                                         .toUpperCase(),
                                     style: TextStyle(
                                       fontSize: 15.sp,
@@ -335,8 +356,8 @@ class _HomePageState extends State<HomePage>
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                              ],
-                            )
+                                ],
+                              )
                             : Shimmer.fromColors(
                                 baseColor: Colors.white24,
                                 highlightColor: Colors.white60,
