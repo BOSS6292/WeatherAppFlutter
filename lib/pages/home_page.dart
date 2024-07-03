@@ -340,13 +340,16 @@ class _HomePageState extends State<HomePage>
                             fontWeight: FontWeight.bold,
                           ),
                         )
-                            : const Text(
-                          'Weather description not available',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
-                            fontFamily: 'SF-Pro-Display-Regular',
-                            fontWeight: FontWeight.normal,
+                            : Shimmer.fromColors(
+                          baseColor: Colors.white24,
+                          highlightColor: Colors.white60,
+                          child: Container(
+                            width: 100,
+                            height: 18,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: const Color(0xFF003A8C),
+                            ),
                           ),
                         ),
                       )
