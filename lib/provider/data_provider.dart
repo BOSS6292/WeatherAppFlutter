@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +25,7 @@ class DataProvider extends ChangeNotifier {
   String airQuality = '';
   bool locationAccess = false;
   bool _isLoading = false;
+  List<Color> _gradientColors = [];
   String _greeting = '';
   String _subtitle = '';
   String visibility = '';
@@ -49,12 +51,14 @@ class DataProvider extends ChangeNotifier {
 
   bool get hasDataLoaded => forecastModel != null;
 
+  List<Color> get gradientColors => _gradientColors;
+
   DataProvider() {
     init();
   }
 
   void init() async {
-    _setGreeting();
+    _updateGradientColors();
     await getLocation();
 
     _isLoadingWeather = true;
@@ -281,25 +285,6 @@ class DataProvider extends ChangeNotifier {
     return await Geolocator.getCurrentPosition();
   }
 
-  void _setGreeting() {
-    final now = DateTime.now();
-    final hour = now.hour;
-
-    if (hour >= 5 && hour < 12) {
-      _greeting = 'Good Morning';
-      _subtitle = 'Rise and shine!';
-    } else if (hour >= 12 && hour < 17) {
-      _greeting = 'Good Afternoon!';
-      _subtitle = 'Time for lunch?';
-    } else if (hour >= 17 && hour < 21) {
-      _greeting = 'Good Evening!';
-      _subtitle = 'Enjoy the sunset!';
-    } else {
-      _greeting = 'Good Night!';
-      _subtitle = 'Sweet dreams!';
-    }
-  }
-
   String getWeatherIcon(String? main) {
     switch (main!.toLowerCase()) {
       case 'clouds':
@@ -353,5 +338,22 @@ class DataProvider extends ChangeNotifier {
         recommendation: 'Check air quality information.',
       );
     }
+  }
+
+  void _updateGradientColors() {
+    DateTime now = DateTime.now();
+    int currentHour = now.hour;
+
+    if (6 <= currentHour && currentHour < 12) {
+      _gradientColors = [Colors.yellow[200]!, Colors.orange[700]!, Colors.yellow[200]!];
+    } else if (12 <= currentHour && currentHour < 18) {
+      _gradientColors = [Colors.lightBlue[200]!, Colors.blue[700]!, Colors.lightBlue[200]!];
+    } else if (18 <= currentHour && currentHour < 24) {
+      _gradientColors = [Colors.indigo[400]!, Colors.blue[900]!, Colors.indigo[400]!];
+    } else {
+      _gradientColors = [Colors.black, Colors.grey[900]!, Colors.black];
+    }
+
+    notifyListeners(); // Notify listeners to rebuild UI
   }
 }

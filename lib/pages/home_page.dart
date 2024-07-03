@@ -53,15 +53,11 @@ class _HomePageState extends State<HomePage>
             return Stack(
               children: [
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [
-                        Color(0xFF08244F),
-                        Color(0xFF134CB5),
-                        Color(0xFF0B42AB)
-                      ],
+                      colors: provider.gradientColors,
                     ),
                   ),
                 ),
