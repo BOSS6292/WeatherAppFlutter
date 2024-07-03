@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -54,7 +55,7 @@ Widget buildWeatherContainer(BuildContext context, Animation<double> animation) 
                         color: Colors.white,
                         size: 25.0,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       const Text(
                         'Today',
                         style: TextStyle(
@@ -64,7 +65,7 @@ Widget buildWeatherContainer(BuildContext context, Animation<double> animation) 
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 100),
+                      SizedBox(width: 80.w),
                       Text(
                         provider.getCurrentMonthAndTime(),
                         style: const TextStyle(
@@ -76,12 +77,12 @@ Widget buildWeatherContainer(BuildContext context, Animation<double> animation) 
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.w),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                      height: 100,
-                      width: 250,
+                      height: 100.h,
+                      width: 250.w,
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
                         scrollDirection: Axis.horizontal,
@@ -99,7 +100,7 @@ Widget buildWeatherContainer(BuildContext context, Animation<double> animation) 
                           return Container(
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 8.0),
-                            width: 50,
+                            width: 50.w,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [

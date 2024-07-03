@@ -52,74 +52,71 @@ Widget buildAirContainer(BuildContext context, Animation<double> animation) {
                     children: [
                       Image.asset(
                         'assets/icons/windy.png',
-                        width: 14,
-                        height: 16,
+                        width: 14.w,
+                        height: 16.h,
                         color: Colors.white,
                       ),
-                      const SizedBox(width: 10),
-                      const Text(
+                      SizedBox(width: 10.w),
+                      Text(
                         'AIR QUALITY',
                         style: TextStyle(
                           fontFamily: 'SF-Pro-Display-Regular',
                           fontWeight: FontWeight.normal,
-                          fontSize: 15,
+                          fontSize: 15.sp,
                           color: Colors.white,
                         ),
                       ),
                     ],
                   ),
                   SizedBox(
-                    height: 130,
-                    width: 300,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${provider.airQualityModel!.list![0].main!.aqi}',
-                                style: const TextStyle(
-                                  fontSize: 80,
-                                  color: Colors.white,
-                                  fontFamily: 'SF-Pro-Display-Regular',
-                                  fontWeight: FontWeight.bold,
+                    height: 130.h,
+                    width: 300.w,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${provider.airQualityModel!.list![0].main!.aqi}',
+                              style: TextStyle(
+                                fontSize: 80.sp,
+                                color: Colors.white,
+                                fontFamily: 'SF-Pro-Display-Regular',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  provider.getAirQualityInfo(provider.airQualityModel!.list![0].main!.aqi.toString()).message,
+                                  style: TextStyle(
+                                    fontSize: 20.sp,
+                                    color: Colors.white,
+                                    fontFamily: 'SF-Pro-Display-Regular',
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    provider.getAirQualityInfo(provider.airQualityModel!.list![0].main!.aqi.toString()).message,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontFamily: 'SF-Pro-Display-Regular',
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                SizedBox(height: 5.h),
+                                Text(
+                                  provider.getAirQualityInfo(provider.airQualityModel!.list![0].main!.aqi.toString()).recommendation,
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Colors.white,
+                                    fontFamily: 'SF-Pro-Display-Regular',
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    provider.getAirQualityInfo(provider.airQualityModel!.list![0].main!.aqi.toString()).recommendation,
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                      fontFamily: 'SF-Pro-Display-Regular',
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                    maxLines: null,
-                                    overflow: TextOverflow.visible,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                                  maxLines: null,
+                                  overflow: TextOverflow.visible,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],

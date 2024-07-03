@@ -111,8 +111,10 @@ class _HomePageState extends State<HomePage>
                               ? FadeTransition(
                                   opacity: _animation,
                                   child: Image.asset(
-                                    provider.getWeatherIcon(provider
-                                        .weatherModel!.weather![0].main),
+                                    provider.getWeatherImage(provider
+                                        .weatherModel!.weather![0].main,provider
+                                        .weatherModel!.weather![0].icon,
+                                    provider.weatherModel!.weather![0].description),
                                     width: 200.w,
                                     height: 200.h,
                                     fit: BoxFit.contain,

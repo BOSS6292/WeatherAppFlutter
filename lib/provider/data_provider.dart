@@ -23,6 +23,7 @@ class DataProvider extends ChangeNotifier {
   Map<String, dynamic> queryParamsForecast = {};
   Map<String, dynamic> queryParamsAirQuality = {};
   String airQuality = '';
+  String isDayOrNight = '';
   bool locationAccess = false;
   bool _isLoading = false;
   List<Color> _gradientColors = [];
@@ -285,17 +286,60 @@ class DataProvider extends ChangeNotifier {
     return await Geolocator.getCurrentPosition();
   }
 
-  String getWeatherIcon(String? main) {
-    switch (main!.toLowerCase()) {
+  String getWeatherImage(String? weatherCondition, String? dayOrNight, String? desc) {
+    if (weatherCondition == null || dayOrNight == null) {
+      return 'assets/default.png';
+    }
+
+    String lowerWeatherCondition = weatherCondition.toLowerCase();
+    String lowerDayOrNight = dayOrNight.toLowerCase();
+
+    switch (lowerWeatherCondition) {
       case 'clouds':
-        return 'assets/Clouds.png';
+        if (lowerDayOrNight.contains('d')) {
+          if (desc == 'overcast clouds') {
+            return 'assets/weatherConditions/day_cloudy.png';
+          } else if (desc == 'few clouds') {
+            return 'assets/weatherConditions/day_sunny.png';
+          } else if (desc == 'scattered clouds' || desc == 'broken clouds') {
+            return 'assets/weatherConditions/day_sunny_cloud.png';
+          }
+        } else {
+          if (desc == 'overcast clouds') {
+            return 'assets/weatherConditions/night_cloudy.png';
+          } else if (desc == 'few clouds' || desc == 'scattered clouds') {
+            return 'assets/weatherConditions/night_cloudy.png';
+          } else if (desc == 'broken clouds') {
+            return 'assets/weatherConditions/night.png';
+          }
+        }
+        break;
       case 'clear':
-        return 'assets/Day Sun.png';
+        if (lowerDayOrNight.contains('d')) {
+          return 'assets/weatherConditions/day_clear_sunny.png';
+        } else {
+          return 'assets/weatherConditions/night_clear.png';
+        }
       case 'rain':
-        return 'assets/Rain.png';
+        if (lowerDayOrNight.contains('d')) {
+          return 'assets/weatherConditions/day_rain.png';
+        } else {
+          return 'assets/weatherConditions/night_rain.png';
+        }
+      case 'drizzle':
+        if (lowerDayOrNight.contains('d')) {
+          return 'assets/weatherConditions/day_cloudy_rainy.png';
+        } else {
+          return 'assets/weatherConditions/night_rain.png';
+        }
+      case 'thunderstorm':
+        return 'assets/weatherConditions/day_night_heavyRainAndStrom.png';
       default:
         return 'assets/default.png';
     }
+
+    // This return statement should never be reached due to the switch cases
+    return 'assets/default.png';
   }
 
   AirQualityInfo getAirQualityInfo(String airQuality) {

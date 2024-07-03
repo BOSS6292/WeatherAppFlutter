@@ -84,6 +84,19 @@ flutter:
     - assets/icons/temp.png
     - assets/icons/sunrise.png
     - assets/icons/sunset.png
+    - assets/weatherConditions/day_clear_sunny.png
+    - assets/weatherConditions/day_cloudy.png
+    - assets/weatherConditions/day_cloudy_rainy.png
+    -  assets/weatherConditions/day_night_heavyRainAndStrom.png
+    -  assets/weatherConditions/day_rain.png
+    -  assets/weatherConditions/day_sunny.png
+    -  assets/weatherConditions/day_sunny_cloud.png
+    -  assets/weatherConditions/day_thunder.png
+    -  assets/weatherConditions/night.png
+    -  assets/weatherConditions/night_clear.png
+    -  assets/weatherConditions/night_cloudy.png
+    -  assets/weatherConditions/night_full_moon.png
+    -  assets/weatherConditions/night_rain.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
