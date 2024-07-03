@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -145,15 +144,18 @@ class DataProvider extends ChangeNotifier {
         print('Forecast data loaded successfully');
         notifyListeners();
       } else {
-        print('Failed to load forecast data: ${response.statusCode}');
-        // Handle error, e.g., show a message to the user
+        if (kDebugMode) {
+          print('Failed to load forecast data: ${response.statusCode}');
+        }
       }
     } on SocketException catch (e) {
-      print('Network error fetching forecast data: $e');
-      // Handle network error
+      if (kDebugMode) {
+        print('Network error fetching forecast data: $e');
+      }
     } catch (error) {
-      print('Error fetching forecast data: $error');
-      // Handle other errors
+      if (kDebugMode) {
+        print('Error fetching forecast data: $error');
+      }
     } finally {
       _isLoadingForecast = false;
       notifyListeners();
@@ -171,18 +173,23 @@ class DataProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         airQualityModel = AirQuality.fromJson(json);
-        print('Air Quality data loaded successfully');
+        if (kDebugMode) {
+          print('Air Quality data loaded successfully');
+        }
         notifyListeners();
       } else {
-        print('Failed to load Air Quality: ${response.statusCode}');
-        // Handle error, e.g., show a message to the user
+        if (kDebugMode) {
+          print('Failed to load Air Quality: ${response.statusCode}');
+        }
       }
     } on SocketException catch (e) {
-      print('Network error fetching Air Quality: $e');
-      // Handle network error
+      if (kDebugMode) {
+        print('Network error fetching Air Quality: $e');
+      }
     } catch (error) {
-      print('Error fetching Air Quality: $error');
-      // Handle other errors
+      if (kDebugMode) {
+        print('Error fetching Air Quality: $error');
+      }
     } finally {
       _isLoadingAirQuality = false;
       notifyListeners();
@@ -235,12 +242,18 @@ class DataProvider extends ChangeNotifier {
         locationAccess = true;
         notifyListeners();
       } else {
-        print('Location access already granted.');
+        if (kDebugMode) {
+          print('Location access already granted.');
+        }
       }
     } on PlatformException catch (e) {
-      print('PlatformException: $e');
+      if (kDebugMode) {
+        print('PlatformException: $e');
+      }
     } catch (error) {
-      print('Error getting location: $error');
+      if (kDebugMode) {
+        print('Error getting location: $error');
+      }
     }
   }
 

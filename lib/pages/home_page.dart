@@ -299,7 +299,7 @@ class _HomePageState extends State<HomePage>
                                     height: 36,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
-                                      color: Colors.white24,
+                                      color: const Color(0xFF003A8C),
                                     ),
                                   ),
                                 ),
@@ -308,67 +308,65 @@ class _HomePageState extends State<HomePage>
                       const SizedBox(height: 10.0),
                       //Today Forecast
                       Container(
-                        padding: const EdgeInsets.all(20.0),
                         height: 185,
                         width: 300,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: const Color(0xFF003A8C),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            provider.forecastModel != null
-                                ? FadeTransition(
-                                    opacity: _animation,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              'Today',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontFamily:
-                                                      'SF-Pro-Display-Regular',
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
+                        child: provider.forecastModel != null
+                            ? Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: FadeTransition(
+                                  opacity: _animation,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text(
+                                            'Today',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily:
+                                                  'SF-Pro-Display-Regular',
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                            Text(
-                                              provider.getCurrentMonthAndTime(),
-                                              style: const TextStyle(
-                                                fontFamily:
-                                                    'SF-Pro-Display-Regular',
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                              ),
+                                          ),
+                                          Text(
+                                            provider.getCurrentMonthAndTime(),
+                                            style: const TextStyle(
+                                              fontFamily:
+                                                  'SF-Pro-Display-Regular',
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 18,
+                                              color: Colors.white,
                                             ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 15),
-                                        // Adding some space between the row and the list
-                                        SizedBox(
-                                          height: 100,
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      // Adjusted to 10 pixels
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          height: 100, // Adjusted to 100 pixels
                                           width: 250,
-                                          // Define the height of the ListView.builder
                                           child: ListView.builder(
-                                            padding: const EdgeInsets.all(15.0),
+                                            padding: EdgeInsets.zero,
                                             scrollDirection: Axis.horizontal,
                                             itemCount:
                                                 provider.getTodaysData().length,
-                                            // Use the correct length here
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               final todaysData = context
                                                   .watch<DataProvider>()
                                                   .getTodaysData();
                                               if (index >= todaysData.length) {
-                                                // This shouldn't happen, but check to prevent errors
                                                 return Container();
                                               }
                                               final tempData = todaysData[index]
@@ -382,57 +380,54 @@ class _HomePageState extends State<HomePage>
                                                 margin:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 8.0),
-                                                child: SizedBox(
-                                                  height: 21,
-                                                  width: 40,
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Text(
-                                                        '${tempData.toString()}°',
-                                                        style: const TextStyle(
-                                                          fontSize: 18,
-                                                          color: Colors.white,
+                                                width: 50,
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      '${tempData}°',
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                        color: Colors.white,
+                                                        fontFamily:
+                                                            'SF-Pro-Display-Regular',
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      timeData ?? 'NA',
+                                                      style: const TextStyle(
+                                                          fontSize: 14,
                                                           fontFamily:
                                                               'SF-Pro-Display-Regular',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        timeData ?? 'NA',
-                                                        style: const TextStyle(
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'SF-Pro-Display-Regular',
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                          color: Colors.white),
+                                                    ),
+                                                  ],
                                                 ),
                                               );
                                             },
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  )
-                                : Shimmer.fromColors(
-                                    baseColor: Colors.white24,
-                                    highlightColor: Colors.white60,
-                                    child: Container(
-                                      width: 300,
-                                      height: 36,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.white24,
                                       ),
-                                    ),
+                                    ],
                                   ),
-                          ],
-                        ),
+                                ),
+                              )
+                            : Shimmer.fromColors(
+                                baseColor: Colors.white24,
+                                highlightColor: Colors.white60,
+                                child: Container(
+                                  height: double.infinity,
+                                  // Cover entire height of parent
+                                  width: double.infinity,
+                                  // Cover entire width of parent
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: const Color(0xFF003A8C),
+                                  ),
+                                ),
+                              ),
                       ),
                     ],
                   ),
