@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:weather_app/provider/data_provider.dart';
@@ -10,7 +8,7 @@ import '../containers/airQualityContainer.dart';
 import '../containers/weatherContainer.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -314,11 +312,11 @@ class _HomePageState extends State<HomePage>
                       CarouselSlider(
                         items: [
                           SingleChildScrollView(
-                            physics: NeverScrollableScrollPhysics(), // Disable scrolling within the carousel
+                            physics: const NeverScrollableScrollPhysics(), // Disable scrolling within the carousel
                             child: buildWeatherContainer(context, _animation),
                           ),
                           SingleChildScrollView(
-                            physics: NeverScrollableScrollPhysics(), // Disable scrolling within the carousel
+                            physics: const NeverScrollableScrollPhysics(), // Disable scrolling within the carousel
                             child: buildAirContainer(context, _animation),
                           ),
                           // Add more items as needed
@@ -330,6 +328,28 @@ class _HomePageState extends State<HomePage>
                           //viewportFraction: 1.0,
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: provider.weatherModel != null && provider.weatherModel!.weather != null && provider.weatherModel!.weather!.isNotEmpty
+                            ? Text(
+                          '${provider.weatherModel!.weather![0].description!.toUpperCase()}',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontFamily: 'SF-Pro-Display-Regular',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                            : const Text(
+                          'Weather description not available',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontFamily: 'SF-Pro-Display-Regular',
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),

@@ -663,3 +663,10 @@ class EnumValues<T> {
     return reverseMap;
   }
 }
+
+class AirQualityInfo {
+  final String message;
+  final String recommendation;
+
+  AirQualityInfo({required this.message, required this.recommendation});
+}

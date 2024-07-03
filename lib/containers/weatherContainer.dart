@@ -5,8 +5,8 @@ import 'package:shimmer/shimmer.dart';
 
 import '../provider/data_provider.dart';
 
-Widget buildWeatherContainer(BuildContext context, Animation<double> _animation) {
-  final provider = Provider.of<DataProvider>(context); // Adjust as per your actual provider usage
+Widget buildWeatherContainer(BuildContext context, Animation<double> animation) {
+  final provider = Provider.of<DataProvider>(context);
 
   return Container(
     height: 185,
@@ -19,13 +19,18 @@ Widget buildWeatherContainer(BuildContext context, Animation<double> _animation)
         ? Padding(
       padding: const EdgeInsets.all(16.0),
       child: FadeTransition(
-        opacity: _animation, // Ensure _animation is defined and managed properly
+        opacity: animation,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                const Icon(
+                  Icons.today,
+                  color: Colors.white,
+                  size: 25.0,
+                ),
                 const Text(
                   'Today',
                   style: TextStyle(
@@ -35,6 +40,7 @@ Widget buildWeatherContainer(BuildContext context, Animation<double> _animation)
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(width: 120,),
                 Text(
                   provider.getCurrentMonthAndTime(),
                   style: const TextStyle(
@@ -75,7 +81,7 @@ Widget buildWeatherContainer(BuildContext context, Animation<double> _animation)
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            '${tempData}°',
+                            '$tempData°',
                             style: const TextStyle(
                               fontSize: 18,
                               color: Colors.white,

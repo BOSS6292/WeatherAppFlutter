@@ -21,6 +21,7 @@ class DataProvider extends ChangeNotifier {
   Map<String, dynamic> queryParamsWeather = {};
   Map<String, dynamic> queryParamsForecast = {};
   Map<String, dynamic> queryParamsAirQuality = {};
+  String airQuality = '';
   bool locationAccess = false;
   bool _isLoading = false;
   String _greeting = '';
@@ -64,11 +65,8 @@ class DataProvider extends ChangeNotifier {
     _setQueryParametersForForecast();
     _setQueryParameteresForAirQuality();
 
-    await Future.wait([
-      getWeatherData(),
-      getForecastData(),
-      getAirQualityData()
-    ]);
+    await Future.wait(
+        [getWeatherData(), getForecastData(), getAirQualityData()]);
   }
 
   String getCurrentMonthAndTime() {
@@ -96,9 +94,9 @@ class DataProvider extends ChangeNotifier {
   }
 
   void _setQueryParameteresForAirQuality() {
-    queryParamsWeather['lat'] = '$_latitude';
-    queryParamsWeather['lon'] = '$_longitude';
-    queryParamsWeather['appid'] = apiKey;
+    queryParamsAirQuality['lat'] = '$_latitude';
+    queryParamsAirQuality['lon'] = '$_longitude';
+    queryParamsAirQuality['appid'] = apiKey;
   }
 
   Future<void> getWeatherData() async {
@@ -312,6 +310,48 @@ class DataProvider extends ChangeNotifier {
         return 'assets/Rain.png';
       default:
         return 'assets/default.png';
+    }
+  }
+
+  AirQualityInfo getAirQualityInfo(String airQuality) {
+    int aqi = int.tryParse(airQuality) ?? 0;
+
+    if (aqi >= 0 && aqi <= 50) {
+      return AirQualityInfo(
+        message: 'Good air quality',
+        recommendation: 'Enjoy outdoor activities!',
+      );
+    } else if (aqi >= 51 && aqi <= 100) {
+      return AirQualityInfo(
+        message: 'Moderate air quality',
+        recommendation: 'It\'s okay to go for a walk.',
+      );
+    } else if (aqi >= 101 && aqi <= 150) {
+      return AirQualityInfo(
+        message: 'Unhealthy for sensitive groups',
+        recommendation: 'Limit prolonged outdoor exertion.',
+      );
+    } else if (aqi >= 151 && aqi <= 200) {
+      return AirQualityInfo(
+        message: 'Unhealthy air quality',
+        recommendation: 'Avoid prolonged outdoor activities.',
+      );
+    } else if (aqi >= 201 && aqi <= 300) {
+      return AirQualityInfo(
+        message: 'Very unhealthy air quality',
+        recommendation: 'Stay indoors and avoid outdoor activities.',
+      );
+    } else if (aqi > 300) {
+      return AirQualityInfo(
+        message: 'Hazardous air quality',
+        recommendation:
+            'Remain indoors and keep outdoor activities to a minimum.',
+      );
+    } else {
+      return AirQualityInfo(
+        message: 'Unknown air quality',
+        recommendation: 'Check air quality information.',
+      );
     }
   }
 }
