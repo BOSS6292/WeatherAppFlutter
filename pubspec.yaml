@@ -45,6 +45,7 @@ dependencies:
   google_fonts:
   shimmer:
   carousel_slider:
+  flutter_screenutil:
 
 
 dev_dependencies:

@@ -53,11 +53,10 @@ Widget buildWeatherContainer(BuildContext context, Animation<double> animation) 
               ],
             ),
             const SizedBox(height: 10),
-            // Adjusted to 10 pixels
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
-                height: 100, // Adjusted to 100 pixels
+                height: 100,
                 width: 250,
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
@@ -112,9 +111,7 @@ Widget buildWeatherContainer(BuildContext context, Animation<double> animation) 
       highlightColor: Colors.white60,
       child: Container(
         height: double.infinity,
-        // Cover entire height of parent
         width: double.infinity,
-        // Cover entire width of parent
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: const Color(0xFF003A8C),
