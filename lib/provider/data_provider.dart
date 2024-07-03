@@ -26,14 +26,20 @@ class DataProvider extends ChangeNotifier {
   bool _isLoadingForecast = false;
   final apiKey = '823805ed368564fb588cd05260dae090';
   final baseUrl = Uri.parse('https://api.openweathermap.org/data/2.5/weather');
-  final baseUrl2 = Uri.parse('https://api.openweathermap.org/data/2.5/forecast');
+  final baseUrl2 =
+      Uri.parse('https://api.openweathermap.org/data/2.5/forecast');
 
   double get latitude => _latitude;
+
   double get longitude => _longitude;
+
   String get greeting => _greeting;
+
   String get subtitle => _subtitle;
+
   bool get isLoading => _isLoading;
-  bool get hasDataLoaded => forecastModel!=null;
+
+  bool get hasDataLoaded => forecastModel != null;
 
   DataProvider() {
     init();
@@ -55,6 +61,7 @@ class DataProvider extends ChangeNotifier {
       getForecastData(),
     ]);
   }
+
 
   String getCurrentMonthAndTime() {
     return DateFormat('MMMM d').format(DateTime.now());
@@ -114,7 +121,8 @@ class DataProvider extends ChangeNotifier {
     _isLoadingForecast = true;
     notifyListeners();
 
-    final uri = Uri.https(baseUrl2.authority, baseUrl2.path, queryParamsForecast);
+    final uri =
+        Uri.https(baseUrl2.authority, baseUrl2.path, queryParamsForecast);
     try {
       final response = await http.get(uri);
       if (response.statusCode == 200) {
@@ -138,33 +146,42 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
+
   String? printForecastItems(String dtTxt) {
-    /*if (forecastModel == null || forecastModel!.list!.isEmpty) {
-      if (kDebugMode) {
-        print('No forecast data available');
-      }
-      return 'Null';
-    }*/
     DateTime now = DateTime.now();
     bool shouldPrint = false;
     String? ans;
 
-      var forecastItemText = dtTxt;
-      DateTime forecastDateTime = convertStringToDateTimeObj(forecastItemText);
+    var forecastItemText = dtTxt;
+    DateTime forecastDateTime = convertStringToDateTimeObj(forecastItemText);
 
-      if (shouldPrint || forecastDateTime.isAfter(now)) {
-        ans = DateFormat('hh:mm a').format(forecastDateTime);
-        shouldPrint = true;
-      }
-      if (shouldPrint && forecastDateTime.day != now.day) {
-        return null;
-      }
+    if (shouldPrint || forecastDateTime.isAfter(now)) {
+      ans = DateFormat('hh:mm a').format(forecastDateTime);
+      shouldPrint = true;
+    }
+    if (shouldPrint && forecastDateTime.day != now.day) {
+      return null;
+    }
     return ans;
   }
 
-
   DateTime convertStringToDateTimeObj(String? dt) {
     return DateTime.parse(dt!);
+  }
+
+  List<T> getTodaysData<T>() {
+    if (forecastModel?.list == null) {
+      return [];
+    }
+    final today = DateTime.now();
+    final todaysData = forecastModel!.list!.where((item) {
+      final forecastDate = DateTime.parse(item!.dtTxt!);
+      return forecastDate.year == today.year &&
+          forecastDate.month == today.month &&
+          forecastDate.day == today.day &&
+          forecastDate.isAfter(today);
+    }).toList() as List<T>;
+    return todaysData;
   }
 
   Future<void> getLocation() async {

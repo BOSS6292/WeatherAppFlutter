@@ -308,7 +308,7 @@ class _HomePageState extends State<HomePage>
                       const SizedBox(height: 10.0),
                       //Today Forecast
                       Container(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: const EdgeInsets.all(20.0),
                         height: 185,
                         width: 300,
                         decoration: BoxDecoration(
@@ -333,12 +333,16 @@ class _HomePageState extends State<HomePage>
                                               'Today',
                                               style: TextStyle(
                                                   color: Colors.white,
+                                                  fontFamily:
+                                                  'SF-Pro-Display-Regular',
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               provider.getCurrentMonthAndTime(),
                                               style: const TextStyle(
+                                                fontFamily:
+                                                'SF-Pro-Display-Regular',
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 18,
                                                 color: Colors.white,
@@ -346,58 +350,64 @@ class _HomePageState extends State<HomePage>
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 10),
+                                        const SizedBox(height: 15),
                                         // Adding some space between the row and the list
                                         SizedBox(
                                           height: 100,
+                                          width: 250,
                                           // Define the height of the ListView.builder
                                           child: ListView.builder(
+                                            padding: const EdgeInsets.all(15.0),
                                             scrollDirection: Axis.horizontal,
-                                            itemCount: provider
-                                                .forecastModel!.list!.length,
+                                            itemCount:
+                                                provider.getTodaysData().length,
+                                            // Use the correct length here
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              final tempData = provider
-                                                  .forecastModel!
-                                                  .list![index]!
+                                              final todaysData = context
+                                                  .watch<DataProvider>()
+                                                  .getTodaysData();
+                                              if (index >= todaysData.length) {
+                                                // This shouldn't happen, but check to prevent errors
+                                                return Container();
+                                              }
+                                              final tempData = todaysData[index]
                                                   .main!
                                                   .temp!
                                                   .ceil();
-                                              final timeData = provider.printForecastItems(provider.forecastModel!.list![index]!.dtTxt!);
+                                              final timeData =
+                                                  provider.printForecastItems(
+                                                      todaysData[index].dtTxt!);
                                               return Container(
                                                 margin:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 8.0),
-                                                child: Container(
+                                                child: SizedBox(
                                                   height: 21,
                                                   width: 40,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.blue),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                    color: const Color(0xFF2566A3),
-                                                  ),
                                                   child: Column(
                                                     mainAxisSize:
                                                         MainAxisSize.min,
                                                     children: [
                                                       Text(
-                                                          '${tempData.toString()}°',
-                                                          style: const TextStyle(
-                                                              fontSize: 18,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal)),
-                                                      Text(timeData ?? 'NA',
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: Colors
-                                                                      .grey)),
+                                                        '${tempData.toString()}°',
+                                                        style: const TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.white,
+                                                          fontFamily:
+                                                          'SF-Pro-Display-Regular',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        timeData ?? 'NA',
+                                                        style: const TextStyle(
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                            'SF-Pro-Display-Regular',
+                                                            color: Colors.white),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
