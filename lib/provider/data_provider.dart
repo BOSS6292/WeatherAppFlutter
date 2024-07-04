@@ -33,7 +33,7 @@ class DataProvider extends ChangeNotifier {
   bool _isLoadingWeather = false;
   bool _isLoadingForecast = false;
   bool _isLoadingAirQuality = false;
-  final apiKey = '823805ed368564fb588cd05260dae090';
+  final apiKey = 'your_api_key_here';
   final baseUrl = Uri.parse('https://api.openweathermap.org/data/2.5/weather');
   final baseUrl2 =
       Uri.parse('https://api.openweathermap.org/data/2.5/forecast');
